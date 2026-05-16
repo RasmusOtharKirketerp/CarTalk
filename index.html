@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CarTalk BLE Grid</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <section class="hero">
+        <p class="eyebrow">Car-to-Car / No Cloud Required</p>
+        <h1>CarTalk BLE Grid</h1>
+        <p class="subtitle">
+          Nearby cars can join one rolling micro-network and exchange short bursts of data.
+          Browser + Bluetooth + geo-fence.
+        </p>
+      </section>
+
+      <section class="panel">
+        <div class="row">
+          <button id="connectBtn">Connect Bluetooth Relay</button>
+          <button id="locBtn" class="ghost">Share My Location</button>
+        </div>
+
+        <div class="status-grid">
+          <article>
+            <h2>Bluetooth</h2>
+            <p id="bleState">Disconnected</p>
+          </article>
+          <article>
+            <h2>Geo Fence</h2>
+            <p id="geoState">No position yet</p>
+          </article>
+          <article>
+            <h2>Distance</h2>
+            <p id="distanceState">Unknown</p>
+          </article>
+        </div>
+
+        <form id="messageForm">
+          <label for="messageInput">Broadcast message</label>
+          <div class="row">
+            <input id="messageInput" maxlength="140" placeholder="Road hazard, meetup point, convoy signal..." required />
+            <button type="submit">Send</button>
+          </div>
+        </form>
+
+        <section class="telemetry">
+          <h2>Telemetry Sync</h2>
+          <div class="row">
+            <label>Speed (km/t)
+              <input id="speedInput" type="number" min="0" max="300" value="0" />
+            </label>
+            <label>Acceleration (m/s²)
+              <input id="accelInput" type="number" min="-15" max="15" step="0.1" value="0" />
+            </label>
+            <label>Brake
+              <select id="brakeInput">
+                <option value="off">Off</option>
+                <option value="on">On</option>
+              </select>
+            </label>
+          </div>
+          <div class="status-grid telemetry-grid">
+            <article>
+              <h2>My Drive Time</h2>
+              <p id="myDriveTime">00:00:00</p>
+            </article>
+            <article>
+              <h2>My Hold Time</h2>
+              <p id="myHoldTime">00:00:00</p>
+            </article>
+            <article>
+              <h2>Remote Speed</h2>
+              <p id="remoteSpeed">-</p>
+            </article>
+            <article>
+              <h2>Remote Accel</h2>
+              <p id="remoteAccel">-</p>
+            </article>
+            <article>
+              <h2>Remote Brake</h2>
+              <p id="remoteBrake">-</p>
+            </article>
+            <article>
+              <h2>Remote Drive/Hold</h2>
+              <p id="remoteTimes">-</p>
+            </article>
+          </div>
+        </section>
+
+        <div class="feed-wrap">
+          <h2>Traffic Feed</h2>
+          <ul id="feed"></ul>
+        </div>
+      </section>
+    </main>
+
+    <template id="itemTemplate">
+      <li>
+        <time></time>
+        <span></span>
+      </li>
+    </template>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
