@@ -31,6 +31,16 @@ Telemetry is sent every second and includes:
 ## Browser support
 - Best support: Chromium-based browsers on Android/desktop.
 - Safari/iOS support is limited and may not work for this flow.
+- This project is intentionally BT-only. No QR, no cloud fallback.
+
+## BT-only join test (GitHub Pages)
+1. Open the same GitHub Pages URL on PC and mobile.
+2. Confirm `Device Check` shows Bluetooth path ready on both.
+3. On both devices, click `Join Via Bluetooth Relay`.
+4. Select the same BLE relay node when prompted.
+5. Verify both clients show `Connected` and that chat/telemetry updates appear in each other's feed.
+
+If `Device Check` is red, that browser/device is blocked for BT-only mode.
 
 ## Next radical step
 Put one BLE relay in each car + mesh firmware between relays.

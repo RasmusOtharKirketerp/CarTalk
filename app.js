@@ -6,6 +6,8 @@ const MAX_DISTANCE_METERS = 300;
 
 const connectBtn = document.querySelector("#connectBtn");
 const locBtn = document.querySelector("#locBtn");
+const compatBanner = document.querySelector("#compatBanner");
+const compatState = document.querySelector("#compatState");
 const form = document.querySelector("#messageForm");
 const input = document.querySelector("#messageInput");
 const feed = document.querySelector("#feed");
@@ -32,9 +34,39 @@ let remoteCoords;
 let telemetryInterval;
 let driveSeconds = 0;
 let holdSeconds = 0;
+let btSupported = false;
 
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
+
+function detectBluetoothSupport() {
+  const issues = [];
+  if (!window.isSecureContext) {
+    issues.push("Use https:// or localhost.");
+  }
+  if (!navigator.bluetooth) {
+    issues.push("Web Bluetooth API is missing.");
+  }
+  return {
+    supported: issues.length === 0,
+    issues,
+  };
+}
+
+function renderSupportState() {
+  const support = detectBluetoothSupport();
+  btSupported = support.supported;
+  compatBanner.classList.remove("ok", "error");
+  if (btSupported) {
+    compatBanner.classList.add("ok");
+    compatState.textContent = "Bluetooth path ready. Tap 'Join Via Bluetooth Relay' on both devices.";
+  } else {
+    compatBanner.classList.add("error");
+    compatState.textContent = `Bluetooth-only mode blocked: ${support.issues.join(" ")}`;
+  }
+  connectBtn.disabled = !btSupported;
+  locBtn.disabled = !btSupported;
+}
 
 function pushFeed(message, type = "in") {
   const node = itemTemplate.content.firstElementChild.cloneNode(true);
@@ -141,6 +173,9 @@ function startTelemetryLoop() {
 }
 
 async function connectBluetooth() {
+  if (!btSupported) {
+    throw new Error("Bluetooth-only mode is blocked on this browser/device.");
+  }
   if (!navigator.bluetooth) {
     throw new Error("Web Bluetooth is not supported in this browser.");
   }
@@ -258,3 +293,4 @@ form.addEventListener("submit", async (event) => {
 
 pushFeed("Ready. Connect to BLE relay to start car-grid chat.", "sys");
 renderMyTimers();
+renderSupportState();

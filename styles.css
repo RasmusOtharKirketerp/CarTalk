@@ -57,6 +57,33 @@ body {
   backdrop-filter: blur(4px);
 }
 
+.compat-banner {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.8rem;
+  margin-bottom: 0.9rem;
+  background: rgba(9, 16, 24, 0.72);
+}
+
+.compat-banner h2 {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.compat-banner p {
+  margin: 0.45rem 0 0;
+}
+
+.compat-banner.ok {
+  border-color: rgba(84, 242, 194, 0.6);
+}
+
+.compat-banner.error {
+  border-color: rgba(255, 102, 120, 0.65);
+}
+
 .row {
   display: flex;
   gap: 0.6rem;
@@ -77,6 +104,11 @@ button {
   padding: 0.7rem 1rem;
   font-weight: 700;
   cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 button.ghost {
